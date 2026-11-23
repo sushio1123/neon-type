@@ -281,9 +281,9 @@
     /* ONLINE SADDEN DEATH リザルト前の緊張鼓動アニメーション */
     @keyframes heartbeatPulse {
       0%, 100% { transform: scale(1); filter: brightness(1); }
-      16%      { transform: scale(1.08); filter: brightness(1.3); }
-      32%      { transform: scale(0.98); filter: brightness(1); }
-      48%      { transform: scale(1.06); filter: brightness(1.25); }
+      16%      { transform: scale(1.06); filter: brightness(1.25); }
+      32%      { transform: scale(0.99); filter: brightness(1); }
+      48%      { transform: scale(1.05); filter: brightness(1.2); }
     }
     .heartbeat-anim {
       animation: heartbeatPulse 0.85s ease-in-out infinite;
@@ -680,43 +680,52 @@
           </button>
         </div>
 
-        <!-- 3-2-1 カウントダウンオーバーレイ -->
-        <div id="countdown-overlay" class="hidden absolute inset-0 bg-[#05070a]/90 z-20 flex items-center justify-center">
+        <!-- 3-2-1 カウントダウンオーバーレイ（ソロ・オンライン共通） -->
+        <div id="countdown-overlay" class="hidden absolute inset-0 bg-[#05070a]/95 z-20 flex items-center justify-center">
           <span id="countdown-number" class="font-orbitron font-black text-7xl sm:text-9xl glow-cyan animate-ping">3</span>
         </div>
 
-        <!-- ONLINE SADDEN DEATH 1ミスロックオーバーレイ（入力不可・相手終了待ち） -->
-        <div id="online-sd-locked-overlay" class="hidden absolute inset-0 bg-[#05070a]/92 z-10 flex flex-col items-center justify-center p-6 space-y-3">
+        <!-- ONLINE SADDEN DEATH 1ミスロックオーバーレイ（真っ黒にして文字を完全に隠す） -->
+        <div id="online-sd-locked-overlay" class="hidden absolute inset-0 bg-black z-25 flex flex-col items-center justify-center p-6 space-y-3">
           <span class="font-orbitron font-black text-2xl sm:text-4xl tracking-wider glow-magenta">OUT / LOCKED</span>
           <p class="text-xs sm:text-sm font-mono-code text-pink-300">1ミスしたため入力がロックされました。対戦相手の終了を待っています...</p>
         </div>
 
-        <!-- ONLINE SADDEN DEATH 勝敗判定前のドキドキドラムロール演出オーバーレイ -->
-        <div id="online-sd-suspense-overlay" class="hidden absolute inset-0 bg-[#05070a]/96 z-30 flex flex-col items-center justify-center p-6 space-y-5">
-          <div class="inline-block px-4 py-1 rounded-full bg-pink-500/20 border border-pink-400 text-pink-300 font-orbitron text-xs tracking-[0.28em]">
-            ONLINE SADDEN DEATH
-          </div>
-          <div id="sd-suspense-title" class="font-orbitron font-black text-3xl sm:text-5xl tracking-widest glow-magenta heartbeat-anim">
-            JUDGING...
-          </div>
-          <div class="w-full max-w-md grid grid-cols-3 items-center gap-2 pt-2">
-            <div class="p-3 rounded-xl bg-cyan-950/30 border border-cyan-400/50 text-center">
-              <div id="sd-suspense-my-name" class="text-xs font-bold text-cyan-300 truncate">YOU</div>
-              <div id="sd-suspense-my-score" class="font-mono-code font-black text-xl sm:text-2xl text-white mt-1">----</div>
+        <!-- ONLINE SADDEN DEATH 勝敗判定前のドキドキドラムロール演出オーバーレイ（文字重なり解消・整理レイアウト） -->
+        <div id="online-sd-suspense-overlay" class="hidden absolute inset-0 bg-[#05070a] z-30 flex flex-col items-center justify-center p-5 sm:p-8">
+          <div class="w-full max-w-xl flex flex-col items-center justify-center gap-4 sm:gap-5">
+            <div class="inline-block px-4 py-1 rounded-full bg-pink-500/20 border border-pink-400 text-pink-300 font-orbitron text-[11px] sm:text-xs tracking-[0.24em]">
+              ONLINE SADDEN DEATH
             </div>
-            <div class="font-orbitron font-black text-2xl glow-magenta">VS</div>
-            <div class="p-3 rounded-xl bg-pink-950/30 border border-pink-500/50 text-center">
-              <div id="sd-suspense-opp-name" class="text-xs font-bold text-pink-400 truncate">OPP</div>
-              <div id="sd-suspense-opp-score" class="font-mono-code font-black text-xl sm:text-2xl text-white mt-1">----</div>
+
+            <div id="sd-suspense-title" class="font-orbitron font-black text-2xl sm:text-4xl tracking-widest glow-magenta heartbeat-anim leading-tight">
+              JUDGING...
             </div>
+
+            <div class="w-full grid grid-cols-1 sm:grid-cols-7 items-center gap-2.5 sm:gap-3 pt-1">
+              <div class="sm:col-span-3 p-3.5 rounded-xl bg-cyan-950/35 border border-cyan-400/50 text-center space-y-1">
+                <div id="sd-suspense-my-name" class="text-xs font-bold text-cyan-300 truncate">YOU</div>
+                <div id="sd-suspense-my-score" class="font-mono-code font-black text-2xl sm:text-3xl text-white tracking-tight">----</div>
+              </div>
+
+              <div class="sm:col-span-1 font-orbitron font-black text-xl sm:text-2xl glow-magenta py-0.5">
+                VS
+              </div>
+
+              <div class="sm:col-span-3 p-3.5 rounded-xl bg-pink-950/35 border border-pink-500/50 text-center space-y-1">
+                <div id="sd-suspense-opp-name" class="text-xs font-bold text-pink-400 truncate">OPP</div>
+                <div id="sd-suspense-opp-score" class="font-mono-code font-black text-2xl sm:text-3xl text-white tracking-tight">----</div>
+              </div>
+            </div>
+
+            <p id="sd-suspense-sub" class="text-xs sm:text-sm font-mono-code text-pink-300/90 tracking-wide animate-pulse pt-1">
+              両者のスコア集計中... 勝敗はどちらに！？
+            </p>
           </div>
-          <p id="sd-suspense-sub" class="text-xs sm:text-sm font-mono-code text-pink-300/90 tracking-wider animate-pulse">
-            両者のスコア集計中... 勝敗はどちらに！？
-          </p>
         </div>
 
         <!-- お題表示エリア（背景カウントよりも前面に配置・よみがなを大きく配置） -->
-        <div class="w-full max-w-3xl space-y-4 sm:space-y-5 relative z-[5]">
+        <div id="word-arena-content" class="w-full max-w-3xl space-y-4 sm:space-y-5 relative z-[5]">
           <!-- ふりがな（ひらがな：視認性向上のため大きめに表示） -->
           <div id="word-kana" class="text-2xl sm:text-3xl md:text-4xl text-cyan-300 font-black tracking-widest min-h-[2.25rem] drop-shadow-[0_0_8px_rgba(0,243,255,0.28)]">
             じゅんびちゅう
@@ -738,7 +747,7 @@
 
         <!-- モバイル用キーボード入力補助フィールド -->
         <input id="mobile-hidden-input" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="opacity-0 absolute bottom-2 left-1/2 -translate-x-1/2 w-1 h-1 pointer-events-none" />
-        <div class="mt-10 text-[11px] text-slate-500 font-mono-code relative z-[5]">
+        <div id="stage-keyboard-hint" class="mt-10 text-[11px] text-slate-500 font-mono-code relative z-[5]">
           <i class="fa-solid fa-keyboard mr-1"></i>キーボード入力対応（スマホは画面タップでキーボード表示）
         </div>
       </div>
@@ -3134,6 +3143,7 @@
       currentWord: null,
       matcher: null,
       timerInterval: null,
+      countdownInterval: null,
       suspenseInterval: null,
       lastSecondAnnounced: null,
       // オンライン対戦用フィールド
@@ -3222,7 +3232,7 @@
       applyKanaFontSize();
     }
 
-    // お題枠の内側縁フラッシュ演出（red / yellow / cyan / magenta / bonus-low / bonus-mid / bonus-high / bonus-magenta-*）
+    // お題枠の内側縁フラッシュ演出
     function triggerScreenEdgeFlash(type) {
       const flashEl = document.getElementById("stage-inner-flash");
       if (!flashEl) return;
@@ -3449,17 +3459,23 @@
       const numEl = document.getElementById("countdown-number");
       overlay.classList.remove("hidden");
 
+      if (gameState.countdownInterval) {
+        clearInterval(gameState.countdownInterval);
+        gameState.countdownInterval = null;
+      }
+
       let count = 3;
       numEl.textContent = count;
       playBeepSound(520, 0.1);
 
-      const cdTimer = setInterval(() => {
+      gameState.countdownInterval = setInterval(() => {
         count--;
         if (count > 0) {
           numEl.textContent = count;
           playBeepSound(520, 0.1);
         } else {
-          clearInterval(cdTimer);
+          clearInterval(gameState.countdownInterval);
+          gameState.countdownInterval = null;
           overlay.classList.add("hidden");
           playBeepSound(880, 0.16);
           onComplete();
@@ -3503,6 +3519,10 @@
       gameState.waitingSpace = false;
       gameState.sdInputLocked = false;
       clearBackgroundCountdownNumber();
+      if (gameState.countdownInterval) {
+        clearInterval(gameState.countdownInterval);
+        gameState.countdownInterval = null;
+      }
       if (gameState.timerInterval) {
         clearInterval(gameState.timerInterval);
         gameState.timerInterval = null;
@@ -3710,6 +3730,12 @@
 
         if (gameState.isOnline && gameState.isOnlineSuddenDeath) {
           gameState.sdInputLocked = true;
+          // 入力画面を真っ黒にして文字を完全に非表示にする
+          document.getElementById("word-kana").textContent = "";
+          document.getElementById("word-display").textContent = "";
+          document.getElementById("romaji-display").innerHTML = "";
+          document.getElementById("stage-bonus-popup-layer").innerHTML = "";
+          clearBackgroundCountdownNumber();
           const lockedOverlay = document.getElementById("online-sd-locked-overlay");
           if (lockedOverlay) lockedOverlay.classList.remove("hidden");
         }
@@ -3804,7 +3830,7 @@
       if (oppNameEl) oppNameEl.textContent = gameState.opponent?.username || "OPPONENT";
       if (titleEl) {
         titleEl.textContent = "JUDGING...";
-        titleEl.className = "font-orbitron font-black text-3xl sm:text-5xl tracking-widest glow-magenta heartbeat-anim";
+        titleEl.className = "font-orbitron font-black text-2xl sm:text-4xl tracking-widest glow-magenta heartbeat-anim leading-tight";
       }
       if (subEl) subEl.textContent = "両者のスコア集計中... 勝敗はどちらに！？";
 
@@ -3840,8 +3866,8 @@
             titleEl.classList.remove("heartbeat-anim");
             titleEl.textContent = iWon ? "VICTORY !!" : "DEFEAT...";
             titleEl.className = iWon
-              ? "font-orbitron font-black text-4xl sm:text-6xl tracking-widest glow-cyan"
-              : "font-orbitron font-black text-4xl sm:text-6xl tracking-widest glow-magenta";
+              ? "font-orbitron font-black text-3xl sm:text-5xl tracking-widest glow-cyan leading-tight"
+              : "font-orbitron font-black text-3xl sm:text-5xl tracking-widest glow-magenta leading-tight";
           }
           if (subEl) {
             subEl.classList.remove("animate-pulse");
@@ -4333,14 +4359,14 @@
 
       gameState = {
         ...gameState,
-        active: true,
+        active: false,
         waitingSpace: false,
         isOnline: true,
         isOnlineSuddenDeath: isOnlineSd,
         sdInputLocked: false,
         duration: matchDuration,
         timeLeft: matchDuration,
-        startTime: performance.now(),
+        startTime: 0,
         score: 0,
         combo: 0,
         maxComboInSession: 0,
@@ -4361,7 +4387,6 @@
       navigate("game");
       applyGameStageTheme();
       document.getElementById("solo-ready-overlay").classList.add("hidden");
-      document.getElementById("countdown-overlay").classList.add("hidden");
       document.getElementById("online-sd-locked-overlay").classList.add("hidden");
       document.getElementById("online-sd-suspense-overlay").classList.add("hidden");
       document.getElementById("online-tug-container").classList.toggle("hidden", isOnlineSd);
@@ -4374,9 +4399,7 @@
           ? "font-orbitron font-bold text-xs sm:text-sm px-3 py-1 rounded-lg bg-pink-950 text-pink-300 border border-pink-500/40"
           : "font-orbitron font-bold text-xs sm:text-sm px-3 py-1 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-500/40";
 
-      pickNextWord();
       updateGameHud();
-      focusMobileInput();
 
       if (firebaseReady && db && gameState.matchId) {
         const matchRef = ref(db, `matches/${gameState.matchId}`);
@@ -4384,8 +4407,9 @@
           if (!snap.exists()) return;
           const data = snap.val();
 
-          if (data.retiredBy && data.retiredBy !== gameState.mySlot && gameState.active) {
+          if (data.retiredBy && data.retiredBy !== gameState.mySlot && (gameState.active || gameState.countdownInterval)) {
             stopGameLoops();
+            document.getElementById("countdown-overlay")?.classList.add("hidden");
             finalizeOnlineMatchResult(true, false);
             return;
           }
@@ -4441,24 +4465,10 @@
         gameState.matchUnsubscribe = unsub;
       }
 
-      gameState.timerInterval = setInterval(() => {
-        const elapsed = (performance.now() - gameState.startTime) / 1000;
-        gameState.timeLeft = Math.max(0, gameState.duration - elapsed);
-
-        if (gameState.timeLeft > 0 && gameState.timeLeft <= 5.0) {
-          const secCeil = Math.ceil(gameState.timeLeft);
-          if (secCeil >= 1 && secCeil <= 5 && gameState.lastSecondAnnounced !== secCeil) {
-            gameState.lastSecondAnnounced = secCeil;
-            triggerScreenEdgeFlash(isSuddenDeathThemeActive() ? "magenta" : "cyan");
-            triggerBackgroundCountdownNumber(secCeil);
-          }
-        }
-
-        updateGameHud();
-        if (gameState.timeLeft <= 0) {
-          finishTypingSession(false);
-        }
-      }, 50);
+      // 全オンラインモード開始前に3秒カウントダウンを実行
+      runThreeSecondCountdown(() => {
+        beginActiveTypingSession();
+      });
     }
 
     function syncOnlineScore() {
