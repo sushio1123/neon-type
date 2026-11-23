@@ -450,8 +450,12 @@
 
       <!-- ソロモード選択（ボタンにはゲーム名と秒数のみ記載） -->
       <div class="space-y-3">
-        <div class="flex items-center gap-2 border-l-4 border-cyan-400 pl-3">
+        <div class="flex items-center justify-between border-l-4 border-cyan-400 pl-3">
           <h2 class="font-orbitron font-bold text-lg sm:text-xl tracking-wider text-slate-100">SOLO MODE</h2>
+          <button onclick="openModeGuideModal()" class="text-xs font-mono-code text-cyan-300 hover:text-cyan-200 px-2.5 py-1 rounded-lg bg-cyan-950/50 border border-cyan-500/40 hover:border-cyan-400 transition flex items-center gap-1.5">
+            <i class="fa-solid fa-book-open"></i>
+            <span>全モード説明</span>
+          </button>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
@@ -1034,6 +1038,7 @@
           <div>MARATHON: <span id="stat-mode-marathon" class="text-cyan-300 font-bold">0</span> 回</div>
           <div>SADDEN DEATH: <span id="stat-mode-sadden" class="text-pink-400 font-bold">0</span> 回 (完走 <span id="stat-sadden-clear">0</span>)</div>
           <div>CASUAL: <span id="stat-mode-casual" class="text-emerald-400 font-bold">0</span> 戦 (<span id="stat-casual-w2">0</span>勝)</div>
+          <div>ONLINE SD: <span id="stat-mode-online-sd" class="text-pink-400 font-bold">0</span> 戦 (<span id="stat-online-sd-wins">0</span>勝)</div>
           <div>RATE: <span id="stat-mode-rate" class="text-amber-400 font-bold">0</span> 戦 (<span id="stat-rate-w2">0</span>勝)</div>
         </div>
       </div>
@@ -1265,6 +1270,91 @@
       <button onclick="submitInitialUsername()" class="w-full py-3.5 rounded-xl bg-cyan-500/20 border-neon-cyan text-cyan-300 hover:bg-cyan-400 hover:text-slate-950 font-orbitron font-bold tracking-widest text-sm transition">
         ENTER ARENA
       </button>
+    </div>
+  </div>
+
+  <!-- 全モード説明ガイドモーダル -->
+  <div id="modal-mode-guide" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4" onclick="if(event.target.id==='modal-mode-guide') this.classList.add('hidden')">
+    <div class="max-w-2xl w-full p-6 rounded-2xl bg-[#0a0f18] border border-cyan-400/50 space-y-4 shadow-2xl" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h3 class="font-orbitron font-bold text-base sm:text-lg text-cyan-300 flex items-center gap-2">
+          <i class="fa-solid fa-book-open"></i> GAME MODES GUIDE / 全モード説明
+        </h3>
+        <button onclick="document.getElementById('modal-mode-guide').classList.add('hidden')" class="text-slate-400 hover:text-white">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+      <div class="max-h-[70vh] overflow-y-auto space-y-4 pr-1 text-xs leading-relaxed">
+        <!-- SOLO MODES -->
+        <div class="space-y-2">
+          <div class="font-orbitron text-[11px] font-bold tracking-widest text-cyan-400 border-l-2 border-cyan-400 pl-2">SOLO MODE (1人用スコアアタック)</div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-cyan-500/30 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-orbitron font-bold text-cyan-300">FRASH</span>
+                <span class="font-mono-code text-[11px] text-cyan-400">30s</span>
+              </div>
+              <p class="text-slate-300">短め〜中程度のワードが出題される30秒間の超短期集中スプリントモードです。</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-cyan-500/30 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-orbitron font-bold text-cyan-300">SPEED</span>
+                <span class="font-mono-code text-[11px] text-cyan-400">60s</span>
+              </div>
+              <p class="text-slate-300">短め〜中程度のワードが中心の60秒スタンダードモード。総合的なタイピング速度を競います。</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-cyan-500/30 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-orbitron font-bold text-cyan-300">OVERDRIVE</span>
+                <span class="font-mono-code text-[11px] text-cyan-400">180s</span>
+              </div>
+              <p class="text-slate-300">四字熟語や長文フレーズが中心の3分間モード。高いコンボ倍率を維持すると爆発的にスコアが伸びます。</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-cyan-500/30 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-orbitron font-bold text-cyan-300">MARATHON</span>
+                <span class="font-mono-code text-[11px] text-cyan-400">300s</span>
+              </div>
+              <p class="text-slate-300">中〜長文ワードが次々と出題される5分間の持久戦モード。正確さと集中力の持続が鍵になります。</p>
+            </div>
+            <div class="sm:col-span-2 p-3.5 rounded-xl bg-pink-950/25 border border-pink-500/40 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-orbitron font-bold text-pink-400">SADDEN DEATH</span>
+                <span class="font-mono-code text-[11px] text-pink-300">100s / 1ミス即終了</span>
+              </div>
+              <p class="text-slate-300">全サイズのワードから出題される100秒サバイバル。1回でもミスタイプした瞬間に即終了となる極限モードです。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ONLINE MODES -->
+        <div class="space-y-2 pt-1">
+          <div class="font-orbitron text-[11px] font-bold tracking-widest text-pink-400 border-l-2 border-pink-500 pl-2">ONLINE BATTLE (リアルタイム1vs1対戦)</div>
+          <div class="space-y-2.5">
+            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-emerald-500/35 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-orbitron font-bold text-emerald-300">CASUAL BATTLE</span>
+                <span class="font-mono-code text-[11px] text-emerald-400">120s / レート変動なし</span>
+              </div>
+              <p class="text-slate-300">レート変動なしで気軽に対戦できる120秒バトル。空欄でランダム対戦、合言葉入力でフレンドと指定対戦が可能です。相手がミスすると自分のコンボが加算され、残り30秒は互いのスコアが非表示になります。</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-pink-950/25 border border-pink-500/40 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-orbitron font-bold text-pink-400">ONLINE SADDEN DEATH</span>
+                <span class="font-mono-code text-[11px] text-pink-300">30s / SD: ON切替</span>
+              </div>
+              <p class="text-slate-300">CASUALカードの「SD」ボタンをONにすると切り替わる30秒間のオンラインサドンデス戦。1回でもミスすると即座に入力がロックされ、30秒終了時にスコアが高い方が勝利します。</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-amber-500/35 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-orbitron font-bold text-amber-300">RATE BATTLE</span>
+                <span class="font-mono-code text-[11px] text-amber-400">120s / ガチ対戦</span>
+              </div>
+              <p class="text-slate-300">レート差±130以内のプレイヤーとマッチングする120秒真剣勝負。勝利でレート上昇（1日1回初回勝利ボーナスあり）、敗北でレート減少。過去30日以内にプレイ履歴があるプレイヤーがRATEランキングに掲載されます。</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1532,6 +1622,7 @@
             "SADDEN DEATH": 0
           },
           casualWins: 0,
+          onlineSdWins: 0,
           rateWins: 0
         },
         unreadDms: []
@@ -1695,6 +1786,7 @@
           totalPlays: playerData.stats.totalPlays,
           rateWins: playerData.stats.rateWins,
           casualWins: playerData.stats.casualWins,
+          onlineSdWins: playerData.stats.onlineSdWins || 0,
           lastSeen: serverTimestamp()
         }).catch(() => {});
 
@@ -1733,7 +1825,7 @@
     // 3. Web Audio API 効果音エンジン（外部音声ファイル不要）
     //    - 打鍵音「トッ」：0コンボの低い音からコンボに応じて音程上昇、ミスでリセット
     //    - 単語完了音 / ノーミス単語完了の豪華音
-    //    - 低い燃えるような炎サウンド（ONLINE SADDEN DEATH 切替時）
+    //    - 低い燃えるような炎サウンド（ONLINE SADDEN DEATH ON/OFF切替時）
     //    - UIボタン共通の軽快なタップ音
     // ---------------------------------------------------------------------
     let audioCtx = null;
@@ -1749,27 +1841,27 @@
       }
     }
 
-    // 低い燃えるような炎エフェクト音（ONLINE SADDEN DEATH 切替時）
+    // 低い燃えるような炎エフェクト音（ONLINE SADDEN DEATH ON/OFF切替時・音量強化）
     function playLowFireRoarSound() {
       if (isMuted) return;
       ensureAudioCtx();
       if (!audioCtx) return;
 
       const now = audioCtx.currentTime;
-      const duration = 0.52;
+      const duration = 0.62;
       const sampleRate = audioCtx.sampleRate;
       const frameCount = Math.floor(sampleRate * duration);
       const noiseBuffer = audioCtx.createBuffer(1, frameCount, sampleRate);
       const data = noiseBuffer.getChannelData(0);
 
-      // ブラウンノイズ＋ゆらぎで低音域の炎のうねりを生成
+      // ブラウンノイズ＋ゆらぎで重厚な炎のうねりを生成
       let lastOut = 0.0;
       for (let i = 0; i < frameCount; i++) {
         const white = Math.random() * 2 - 1;
         const env = Math.sin(Math.PI * (i / frameCount));
         const flicker = 0.72 + 0.28 * Math.sin(i * 0.014);
-        lastOut = (lastOut + (0.045 * white)) / 1.045;
-        data[i] = lastOut * 3.8 * env * flicker;
+        lastOut = (lastOut + (0.048 * white)) / 1.048;
+        data[i] = Math.max(-1, Math.min(1, lastOut * 5.2 * env * flicker));
       }
 
       const noiseSrc = audioCtx.createBufferSource();
@@ -1777,30 +1869,30 @@
 
       const lowpass = audioCtx.createBiquadFilter();
       lowpass.type = "lowpass";
-      lowpass.frequency.setValueAtTime(125, now);
-      lowpass.frequency.linearRampToValueAtTime(240, now + 0.16);
-      lowpass.frequency.exponentialRampToValueAtTime(75, now + duration);
-      lowpass.Q.setValueAtTime(3.2, now);
+      lowpass.frequency.setValueAtTime(140, now);
+      lowpass.frequency.linearRampToValueAtTime(280, now + 0.18);
+      lowpass.frequency.exponentialRampToValueAtTime(80, now + duration);
+      lowpass.Q.setValueAtTime(3.4, now);
 
       const noiseGain = audioCtx.createGain();
       noiseGain.gain.setValueAtTime(0.01, now);
-      noiseGain.gain.linearRampToValueAtTime(0.45, now + 0.09);
-      noiseGain.gain.exponentialRampToValueAtTime(0.002, now + duration);
+      noiseGain.gain.linearRampToValueAtTime(0.88, now + 0.09);
+      noiseGain.gain.exponentialRampToValueAtTime(0.003, now + duration);
 
       // 重低音オシレーターで炎の腹圧を補強
       const subOsc = audioCtx.createOscillator();
       const subGain = audioCtx.createGain();
       subOsc.type = "sawtooth";
-      subOsc.frequency.setValueAtTime(72, now);
-      subOsc.frequency.exponentialRampToValueAtTime(38, now + duration);
+      subOsc.frequency.setValueAtTime(76, now);
+      subOsc.frequency.exponentialRampToValueAtTime(36, now + duration);
 
       const subFilter = audioCtx.createBiquadFilter();
       subFilter.type = "lowpass";
-      subFilter.frequency.setValueAtTime(110, now);
+      subFilter.frequency.setValueAtTime(125, now);
 
       subGain.gain.setValueAtTime(0.01, now);
-      subGain.gain.linearRampToValueAtTime(0.24, now + 0.08);
-      subGain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+      subGain.gain.linearRampToValueAtTime(0.48, now + 0.08);
+      subGain.gain.exponentialRampToValueAtTime(0.002, now + duration);
 
       noiseSrc.connect(lowpass);
       lowpass.connect(noiseGain);
@@ -2071,11 +2163,11 @@
     window.toggleCasualSuddenDeath = function() {
       casualSuddenDeathEnabled = !casualSuddenDeathEnabled;
       syncCasualSuddenDeathUi();
-      if (casualSuddenDeathEnabled) {
-        playLowFireRoarSound();
-      } else {
-        playUiTapSound();
-      }
+      playLowFireRoarSound();
+    };
+
+    window.openModeGuideModal = function() {
+      document.getElementById("modal-mode-guide")?.classList.remove("hidden");
     };
 
     // ---------------------------------------------------------------------
@@ -4401,7 +4493,9 @@
         }
         playerData.rating = Math.max(0, playerData.rating + rateDelta);
         playerData.lastRateBattleAt = now;
-      } else if ((gameState.mode === "CASUAL" || gameState.mode === "ONLINE SADDEN DEATH") && iWon) {
+      } else if (gameState.mode === "ONLINE SADDEN DEATH" && iWon) {
+        playerData.stats.onlineSdWins = (playerData.stats.onlineSdWins || 0) + 1;
+      } else if (gameState.mode === "CASUAL" && iWon) {
         playerData.stats.casualWins = (playerData.stats.casualWins || 0) + 1;
       }
 
@@ -4467,11 +4561,21 @@
     }
 
     // ---------------------------------------------------------------------
-    // 12. ランキング画面（ソロ5モードTop50 + リアルタイムRATEランキング・プロフィール閲覧）
+    // 12. ランキング画面（ソロ5モードTop50 + 過去30日間アクティブRATEランキング・プロフィール閲覧）
     // ---------------------------------------------------------------------
+    const RATE_ACTIVE_WINDOW_MS = 30 * 24 * 60 * 60 * 1000;
     let currentRankingMode = "FRASH";
     let rankingUnsubscribe = null;
     let latestPlayersCache = {};
+
+    function isPlayerActiveWithin30Days(p, nowMs = Date.now()) {
+      if (!p || !p.deviceId || !p.username) return false;
+      const lastSeenMs = normalizeTimestampValue(p.lastSeen);
+      const lastRateMs = normalizeTimestampValue(p.lastRateBattleAt);
+      const latestActivity = Math.max(lastSeenMs, lastRateMs);
+      if (latestActivity <= 0) return false;
+      return (nowMs - latestActivity) <= RATE_ACTIVE_WINDOW_MS;
+    }
 
     window.selectRankingMode = function(mode) {
       currentRankingMode = mode;
@@ -4498,10 +4602,11 @@
       if (mode === "RATE") {
         if (scoreHeader) scoreHeader.textContent = "RATE";
         if (subHeader) subHeader.textContent = "RATE WINS";
-        if (subNote) subNote.textContent = "※現在のレーティング上位50名を表示しています。プレイヤー名をタップするとプロフィールを確認できます。";
+        if (subNote) subNote.textContent = "※過去30日以内に活動があるプレイヤーのレーティング上位50名を表示しています。プレイヤー名をタップするとプロフィールを確認できます。";
 
         const buildRateList = (playersObj) => {
-          const allPlayers = Object.values(playersObj || {}).filter(p => p && p.deviceId && p.username);
+          const nowMs = Date.now();
+          const allPlayers = Object.values(playersObj || {}).filter(p => isPlayerActiveWithin30Days(p, nowMs));
           const sorted = allPlayers
             .map(p => ({
               deviceId: p.deviceId,
@@ -4529,7 +4634,7 @@
           });
           rankingUnsubscribe = () => cb();
         } else {
-          buildRateList({ [playerData.deviceId]: playerData });
+          buildRateList({ [playerData.deviceId]: { ...playerData, lastSeen: Date.now() } });
         }
         return;
       }
@@ -4564,7 +4669,7 @@
     function drawRateRows(tbody, list) {
       tbody.innerHTML = "";
       if (!list || list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" class="py-8 text-center text-slate-500">まだレートデータがありません</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="4" class="py-8 text-center text-slate-500">過去30日以内に活動したレート対象プレイヤーがまだいません</td></tr>`;
         return;
       }
 
@@ -4800,7 +4905,7 @@
       document.getElementById("stat-total-plays").textContent = s.totalPlays;
       document.getElementById("stat-max-combo").textContent = s.maxCombo;
       document.getElementById("stat-rate-wins").textContent = s.rateWins || 0;
-      document.getElementById("stat-casual-wins").textContent = s.casualWins || 0;
+      document.getElementById("stat-casual-wins").textContent = (s.casualWins || 0) + (s.onlineSdWins || 0);
 
       document.getElementById("stat-mode-frash").textContent = s.modePlays.FRASH || 0;
       document.getElementById("stat-mode-speed").textContent = s.modePlays.SPEED || 0;
@@ -4808,8 +4913,10 @@
       document.getElementById("stat-mode-marathon").textContent = s.modePlays.MARATHON || 0;
       document.getElementById("stat-mode-sadden").textContent = s.modePlays["SADDEN DEATH"] || 0;
       document.getElementById("stat-sadden-clear").textContent = s.saddenClearCount || 0;
-      document.getElementById("stat-mode-casual").textContent = (s.modePlays.CASUAL || 0) + (s.modePlays["ONLINE SADDEN DEATH"] || 0);
+      document.getElementById("stat-mode-casual").textContent = s.modePlays.CASUAL || 0;
       document.getElementById("stat-casual-w2").textContent = s.casualWins || 0;
+      document.getElementById("stat-mode-online-sd").textContent = s.modePlays["ONLINE SADDEN DEATH"] || 0;
+      document.getElementById("stat-online-sd-wins").textContent = s.onlineSdWins || 0;
       document.getElementById("stat-mode-rate").textContent = s.modePlays.RATE || 0;
       document.getElementById("stat-rate-w2").textContent = s.rateWins || 0;
 
@@ -6215,12 +6322,13 @@
             const snap = await get(ref(db, "players"));
             if (snap.exists()) {
               latestPlayersCache = snap.val();
-              playersList = Object.values(latestPlayersCache).filter(p => p && p.deviceId);
+              const nowMs = Date.now();
+              playersList = Object.values(latestPlayersCache).filter(p => isPlayerActiveWithin30Days(p, nowMs));
             }
           } catch (e) {}
         }
         playersList.sort((a, b) => Number(b.rating ?? 1500) - Number(a.rating ?? 1500));
-        if (statusEl) statusEl.textContent = `RATE ランキング表示中 (${playersList.length}名)`;
+        if (statusEl) statusEl.textContent = `RATE ランキング表示中・過去30日アクティブ (${playersList.length}名)`;
         listEl.innerHTML = "";
         if (playersList.length === 0) {
           listEl.innerHTML = `<div class="p-3 text-center text-slate-500">レートプレイヤーデータはありません</div>`;
