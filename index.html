@@ -1359,7 +1359,7 @@
                 <span class="font-orbitron font-bold text-amber-300">RATE BATTLE</span>
                 <span class="font-mono-code text-[11px] text-amber-400">120s / ガチ対戦</span>
               </div>
-              <p class="text-slate-300">レート差±130以内のプレイヤーとマッチングする120秒真剣勝負。勝利でレート上昇（1日1回初回勝利ボーナスあり）、敗北でレート減少。過去30日以内にプレイ履歴があるプレイヤーがRATEランキングに掲載されます。</p>
+              <p class="text-slate-300">レート差±130以内のプレイヤーとマッチングする120秒真剣勝負。勝利でレート上昇（1日1回初回勝利ボーナスあり）、敗北でレート減少。過去30日以内にレートマッチをプレイしたプレイヤーがRATEランキングに掲載されます。</p>
             </div>
           </div>
         </div>
@@ -1789,6 +1789,7 @@
           equippedTitle: playerData.equippedTitle,
           rating: playerData.rating,
           lastRateBattleAt: playerData.lastRateBattleAt || 0,
+          ratePlays: playerData.stats.modePlays?.RATE || 0,
           maxWpm: playerData.stats.maxWpm,
           avgWpm: avgWpm,
           avgMissRate: avgMissRate,
@@ -2206,7 +2207,7 @@
       "ヵ": ["xka", "lka"], "ヶ": ["xke", "lke"],
       "ー": ["-"], "、": [","], "。": ["."], "！": ["!"], "？": ["?"], "・": ["/"], " ": [" "],
       "きゃ": ["kya", "kixya", "kilya"], "きぃ": ["kyi", "kixyi", "kilyi"], "きゅ": ["kyu", "kixyu", "kilyu"], "きぇ": ["kye", "kixye", "kilye"], "きょ": ["kyo", "kixyo", "kilyo"],
-      "ぎゃ": ["gya", "gixya", "gilya"], "ぎぃ": ["gyi", "gixyi", "gilyi"], "ぎゅ": ["gyu", "gixyu", "gilyu"], "ぎぇ": ["gye", "gixye", "gilye"], "ぎょ": ["gyo", "gixyo", "gilyo"],
+      "ぎゃ": ["gya", "gixya", "gilya"], "ぎぃ": ["gyi", "gixyi", "gilyi"], "ぎゅ": ["gyu", "gixyu", "gilyu"], "ぎぇ": ["gye", "gixye", "gilye"], "ぎょ": ["gyo", "gixyo", "kilyo"],
       "しゃ": ["sya", "sha", "sixya", "shixya", "cixya", "silya", "shilya", "cilya"],
       "しぃ": ["syi", "sixyi", "shixyi", "cixyi", "silyi", "shilyi", "cilyi"],
       "しゅ": ["syu", "shu", "sixyu", "shixyu", "cixyu", "silyu", "shilyu", "cilyu"],
@@ -2214,7 +2215,7 @@
       "しょ": ["syo", "sho", "sixyo", "shixyo", "cixyo", "silyo", "shilyo", "cilyo"],
       "じゃ": ["zya", "ja", "jya", "zixya", "jixya", "zilya", "jilya"],
       "じぃ": ["zyi", "jyi", "zixyi", "jixyi", "zilyi", "jilyi"],
-      "じゅ": ["zyu", "ju", "jyu", "zixyu", "jixyu", "zilyu", "jilyu"],
+      "じゅ": ["zyu", "ju", "jyu", "zixyu", "jixyu", "zilyu", "jilya"],
       "じぇ": ["zye", "je", "jye", "zixye", "jixye", "zilye", "jilye"],
       "じょ": ["zyo", "jo", "jyo", "zixyo", "jixyo", "zilyo", "jilyo"],
       "ちゃ": ["tya", "cha", "cya", "tixya", "chixya", "tilya", "chilya"],
@@ -2812,7 +2813,7 @@
     }
 
     // ---------------------------------------------------------------------
-    // 6. 全46種類の称号定義 & 自動獲得判定システム
+    // 6. 全50種類の称号定義 & 自動獲得判定システム
     // ---------------------------------------------------------------------
     const TITLES_MASTER = [
       { name: "駆け出しタイパー", desc: "初めてログインする", rarity: "R", secret: false },
@@ -2838,6 +2839,7 @@
       { name: "ロボット", desc: "300COMBO達成", rarity: "SR", secret: false },
       { name: "精密機械", desc: "400COMBO達成", rarity: "UR", secret: false },
       { name: "完璧主義", desc: "600COMBO達成", rarity: "GR", secret: false },
+      { name: "超 完璧主義", desc: "ミスタイプ率0％でレートマッチを完走する", rarity: "GR", secret: false },
       { name: "頑張ってるよ", desc: "WPM30達成", rarity: "RR", secret: false },
       { name: "俺だって", desc: "WPM40達成", rarity: "RR", secret: false },
       { name: "高速", desc: "WPM45達成", rarity: "RR", secret: false },
@@ -2848,6 +2850,8 @@
       { name: "電光石火", desc: "WPM70達成", rarity: "UR", secret: false },
       { name: "疾風迅雷", desc: "WPM70達成", rarity: "UR", secret: false },
       { name: "超次元", desc: "WPM75達成", rarity: "GR", secret: false },
+      { name: "超越者", desc: "WPM90達成", rarity: "GR", secret: false },
+      { name: "極", desc: "WPM100達成", rarity: "GR", secret: false },
       { name: "バーサーカー", desc: "レートバトルを50回プレイする", rarity: "GR", secret: false },
       { name: "BADASS", desc: "レートバトルで1回勝利する", rarity: "RR", secret: false },
       { name: "守備職人", desc: "レートバトルのレートが1600になる", rarity: "RR", secret: false },
@@ -2858,6 +2862,7 @@
       { name: "平和主義", desc: "レートバトルのレートが1300になる", rarity: "S", secret: true },
       { name: "伝説", desc: "レートバトルのレートが2000になる", rarity: "GR", secret: false },
       { name: "親愛なる隣人", desc: "カジュアルバトルを3回プレイする", rarity: "RR", secret: false },
+      { name: "誤字は芸術", desc: "いずれかのモードでミスタイプ率が40％以上のまま完走", rarity: "RRR", secret: false },
       { name: "404ERROR", desc: "ミス404回を累計達成", rarity: "S", secret: true },
       { name: "プレデター", desc: "サドンデスモードを10回プレイする", rarity: "S", secret: true },
       { name: "リタイアー", desc: "オンラインマッチで30回リタイアする", rarity: "S", secret: true }
@@ -2911,6 +2916,7 @@
       if (combo >= 300) unlock("ロボット");
       if (combo >= 400) unlock("精密機械");
       if (combo >= 600) unlock("完璧主義");
+      if (context.completedRateZeroMiss) unlock("超 完璧主義");
 
       const wpm = Math.max(s.maxWpm, context.wpm || 0);
       if (wpm >= 30) unlock("頑張ってるよ");
@@ -2925,6 +2931,8 @@
         unlock("疾風迅雷");
       }
       if (wpm >= 75) unlock("超次元");
+      if (wpm >= 90) unlock("超越者");
+      if (wpm >= 100) unlock("極");
 
       if ((mp.RATE || 0) >= 50) unlock("バーサーカー");
       if ((s.rateWins || 0) >= 1) unlock("BADASS");
@@ -2937,6 +2945,7 @@
       if (playerData.rating <= 1300 && (mp.RATE || 0) >= 1) unlock("平和主義");
       if ((mp.CASUAL || 0) >= 3) unlock("親愛なる隣人");
 
+      if (context.completedHighMissRate40) unlock("誤字は芸術");
       if (s.totalMistypes >= 404) unlock("404ERROR");
       if ((mp["SADDEN DEATH"] || 0) >= 10) unlock("プレデター");
       if (s.onlineRetireCount >= 30) unlock("リタイアー");
@@ -3933,11 +3942,15 @@
         }
         const currentModeBestScore = Number(s.bestScores[gameState.mode] || 0);
 
+        const completedFullRun = !failedSuddenDeath && totalKeys > 0;
+        const completedHighMissRate40 = completedFullRun && missRate >= 40;
+
         savePlayerData();
         checkAndUnlockTitles({
           updatedBestScore,
           combo: gameState.maxComboInSession,
-          wpm: maxWpm
+          wpm: maxWpm,
+          completedHighMissRate40
         });
 
         const { rankGrade, placedInTop50 } = await submitSoloScoreAndEvaluate(
@@ -4509,10 +4522,16 @@
         playerData.stats.casualWins = (playerData.stats.casualWins || 0) + 1;
       }
 
+      const completedOnlineRun = !retiredByMe && totalKeys > 0;
+      const completedRateZeroMiss = gameState.mode === "RATE" && completedOnlineRun && gameState.mistypesInSession === 0;
+      const completedHighMissRate40 = completedOnlineRun && missRate >= 40;
+
       savePlayerData();
       checkAndUnlockTitles({
         combo: gameState.maxComboInSession,
-        wpm: maxWpm
+        wpm: maxWpm,
+        completedRateZeroMiss,
+        completedHighMissRate40
       });
 
       navigate("result");
@@ -4571,7 +4590,7 @@
     }
 
     // ---------------------------------------------------------------------
-    // 12. ランキング画面（ソロ5モードTop50 + 過去30日間アクティブRATEランキング・プロフィール閲覧）
+    // 12. ランキング画面（ソロ5モードTop50 + 過去30日間レートマッチプレイ済みRATEランキング・プロフィール閲覧）
     // ---------------------------------------------------------------------
     const RATE_ACTIVE_WINDOW_MS = 30 * 24 * 60 * 60 * 1000;
     let currentRankingMode = "FRASH";
@@ -4580,11 +4599,9 @@
 
     function isPlayerActiveWithin30Days(p, nowMs = Date.now()) {
       if (!p || !p.deviceId || !p.username) return false;
-      const lastSeenMs = normalizeTimestampValue(p.lastSeen);
       const lastRateMs = normalizeTimestampValue(p.lastRateBattleAt);
-      const latestActivity = Math.max(lastSeenMs, lastRateMs);
-      if (latestActivity <= 0) return false;
-      return (nowMs - latestActivity) <= RATE_ACTIVE_WINDOW_MS;
+      if (lastRateMs <= 0) return false;
+      return (nowMs - lastRateMs) <= RATE_ACTIVE_WINDOW_MS;
     }
 
     window.selectRankingMode = function(mode) {
@@ -4612,7 +4629,7 @@
       if (mode === "RATE") {
         if (scoreHeader) scoreHeader.textContent = "RATE";
         if (subHeader) subHeader.textContent = "RATE WINS";
-        if (subNote) subNote.textContent = "※過去30日以内に活動があるプレイヤーのレーティング上位50名を表示しています。プレイヤー名をタップするとプロフィールを確認できます。";
+        if (subNote) subNote.textContent = "※過去30日以内にレートマッチをプレイしたプレイヤーのレーティング上位50名を表示しています。プレイヤー名をタップするとプロフィールを確認できます。";
 
         const buildRateList = (playersObj) => {
           const nowMs = Date.now();
@@ -4644,7 +4661,7 @@
           });
           rankingUnsubscribe = () => cb();
         } else {
-          buildRateList({ [playerData.deviceId]: { ...playerData, lastSeen: Date.now() } });
+          buildRateList({ [playerData.deviceId]: { ...playerData } });
         }
         return;
       }
@@ -4679,7 +4696,7 @@
     function drawRateRows(tbody, list) {
       tbody.innerHTML = "";
       if (!list || list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" class="py-8 text-center text-slate-500">過去30日以内に活動したレート対象プレイヤーがまだいません</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="4" class="py-8 text-center text-slate-500">過去30日以内にレートマッチをプレイしたプレイヤーがまだいません</td></tr>`;
         return;
       }
 
@@ -6338,10 +6355,10 @@
           } catch (e) {}
         }
         playersList.sort((a, b) => Number(b.rating ?? 1500) - Number(a.rating ?? 1500));
-        if (statusEl) statusEl.textContent = `RATE ランキング表示中・過去30日アクティブ (${playersList.length}名)`;
+        if (statusEl) statusEl.textContent = `RATE ランキング表示中・過去30日レートマッチプレイ済み (${playersList.length}名)`;
         listEl.innerHTML = "";
         if (playersList.length === 0) {
-          listEl.innerHTML = `<div class="p-3 text-center text-slate-500">レートプレイヤーデータはありません</div>`;
+          listEl.innerHTML = `<div class="p-3 text-center text-slate-500">過去30日以内にレートマッチをプレイしたプレイヤーデータはありません</div>`;
           return;
         }
         playersList.slice(0, 50).forEach((p, idx) => {
